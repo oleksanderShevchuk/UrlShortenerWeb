@@ -1,0 +1,32 @@
+﻿@model UrlShortenerWeb.Models.ShortUrl
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create New URL</title>
+</head>
+<body>
+    <h1>Create New URL</h1>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="OriginalUrl">Original URL:</label>
+            <input asp-for="OriginalUrl" class="form-control" />
+            <span asp-validation-for="OriginalUrl" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</body>
+</html>
