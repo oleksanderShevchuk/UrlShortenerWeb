@@ -1,0 +1,49 @@
+﻿@using UrlShortenerWeb.Areas.Identity.Data
+@model IEnumerable<UrlShortenerWeb.Models.ShortUrl>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Shortener</title>
+</head>
+<body>
+    <h1>URL Shortener</h1>
+
+    <div>
+        <h2>URLs</h2>
+        @if (!Model.Any())
+        {
+            <p>No URLs found.</p>
+        }
+        else
+        {
+            <ul>
+                @foreach (var url in Model)
+                {
+                    <li>
+                        <strong>Original URL:</strong> <a href="@url.OriginalUrl">@url.OriginalUrl</a> <br />
+                        <strong>Short URL:</strong> <a href="@url.ShortenedUrl">@url.ShortenedUrl</a>
+
+                        <a asp-controller="ShortUrl" asp-action="UrlInfo" asp-route-id="@url.Id"
+                           class="text-body">URL Info</a>
+
+                        <a asp-controller="ShortUrl" asp-action="Delete" asp-route-id="@url.Id"
+                            class="btn btn-danger mx-2 rounded-2">Delete</a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+    <div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a href="@Url.Action("Create", "ShortUrl")">Create New URL</a>
+        }
+        @if (User.IsInRole(Roles.Admin))
+        { 
+            <a asp-controller="Admin" asp-action="DeleteAllUrls"
+               class="btn btn-danger mx-2 rounded-2">Delete All</a>
+        }
+    </div>
+</body>
+</html>

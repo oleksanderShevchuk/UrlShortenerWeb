@@ -1,0 +1,19 @@
+﻿@model UrlShortenerWeb.Models.ShortUrl
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete URL</title>
+</head>
+<body>
+    <h1>Delete URL</h1>
+
+    <form asp-action="Delete" method="post">
+        <div class="form-group">
+            <strong>Original URL:</strong> @Model.OriginalUrl<br />
+            <strong>Short URL:</strong> <a href="@Model.ShortenedUrl">@Model.ShortenedUrl</a>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</body>
+</html>
