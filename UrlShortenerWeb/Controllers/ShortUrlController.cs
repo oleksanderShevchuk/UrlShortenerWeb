@@ -10,29 +10,44 @@ namespace UrlShortenerWeb.Controllers
 {
     public class ShortUrlController : Controller
     {
-        private readonly UrlShorteningService _urlService;
+        private readonly IUrlShorteningService _urlService;
         private readonly UserManager<ApplicationUser> _userManager;
-        public ShortUrlController(UrlShorteningService urlService, UserManager<ApplicationUser> userManager)
+        public ShortUrlController(IUrlShorteningService urlService, UserManager<ApplicationUser> userManager)
         {
             _urlService = urlService;
             _userManager = userManager;
         }
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Get()
         {
-            return View(_urlService.GetAll());
+            List<ShortUrl> links = _urlService.GetAll().ToList();
+            return Ok(links);
         }
+        [HttpGet]
+        public IActionResult GetById(int id)
+        {
+            ShortUrl shortUrl = _urlService.GetById(id);
+
+            if (shortUrl == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(shortUrl);
+        }
+        [HttpGet]
         [Authorize]
         public IActionResult UrlInfo(int id)
         {
             return View(_urlService.GetById(id));
         }
-        [Authorize]
-        public IActionResult Create()
+        public IEnumerable<ShortUrl> getShortUrls()
         {
-            return View();
+            return _urlService.GetAll();
         }
+        //[Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(string originalUrl)
+        public async Task<IActionResult> Create([FromBody]string originalUrl)
         {
             if (_urlService.GetByOriginalUrl(originalUrl) is not null)
             {
@@ -50,9 +65,10 @@ namespace UrlShortenerWeb.Controllers
                 CreatedDate = DateTime.UtcNow,
             };
             _urlService.Save(shortUrl);
-            return RedirectToAction(actionName: nameof(Index), routeValues: new { id = shortUrl.Id });
+            return Json(new { success = true }); // Return success response
         }
-        [Authorize]
+        //get
+        [HttpDelete("delete")]
         public IActionResult Delete(int id)
         {
             var item = _urlService.GetById(id);
@@ -62,7 +78,9 @@ namespace UrlShortenerWeb.Controllers
             }
             return View(item);
         }
-        [HttpPost, ActionName("Delete")]
+
+        [Authorize]
+        [HttpDelete("delete")]
         public async Task<IActionResult> DeletePost(int id)
         {
             var item = _urlService.GetById(id);

@@ -4,6 +4,7 @@ namespace UrlShortenerWeb.Services
 {
     public interface IUrlShorteningService
     {
+        IEnumerable<ShortUrl> GetAll();
         ShortUrl GetById(int id);
         ShortUrl GetByOriginalUrl(string originalUrl);
         int Save(ShortUrl shortUrl);

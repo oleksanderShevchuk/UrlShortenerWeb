@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\UrlShortenerWeb",
+    "\\UrlShortenerWeb.Tests",
+    "\\UrlShortenerWeb\\Controllers",
+    "\\UrlShortenerWeb\\Services"
   ],
+  "SelectedNode": "\\UrlShortenerWeb\\UrlShortenerWeb.sln",
   "PreviewInSolutionExplorer": false
 }

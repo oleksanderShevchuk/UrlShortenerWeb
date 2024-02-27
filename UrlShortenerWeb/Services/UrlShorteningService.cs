@@ -60,7 +60,8 @@ namespace UrlShortenerWeb.Services
         }
         public void DeleteAllUrl()
         {
-            _context.Database.ExecuteSqlRaw("TRUNCATE TABLE [ShortUrls]");
+            var allUrls = _context.ShortUrls.ToList();
+            _context.ShortUrls.RemoveRange(allUrls);
             _context.SaveChanges();
         }
     }

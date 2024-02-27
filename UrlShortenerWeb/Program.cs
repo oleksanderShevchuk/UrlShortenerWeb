@@ -1,10 +1,10 @@
-using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Net;
+using System.Text;
 using UrlShortenerWeb.Areas.Identity.Data;
 using UrlShortenerWeb.Data;
 using UrlShortenerWeb.Filters;
@@ -26,12 +26,18 @@ builder.Services.AddAuthorization(o =>
     o.AddPolicy(Roles.Admin, p => p.RequireRole(Roles.Admin));
 });
 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+});
+
 // Add services to the container.
-builder.Services.AddControllersWithViews(option => option.Filters.Add(new ValidationFilter()));
+//builder.Services.AddControllersWithViews(option => option.Filters.Add(new ValidationFilter()));
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<UrlShorteningService>();
-builder.Services.AddScoped<DescriptionService>();
+builder.Services.AddScoped<IUrlShorteningService, UrlShorteningService>();
+builder.Services.AddScoped<IDescriptionService, DescriptionService>();
+builder.Services.AddScoped<JWTService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -39,6 +45,27 @@ builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireUppercase = false;
 });
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            // validate the token based on the key we have provided inside appsettings.development.json JWT:Key
+            ValidateIssuerSigningKey = true,
+            // the issuer singning key based on JWT:Key
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+            // the issuer which in here is the api project url we are using
+            ValidIssuer = builder.Configuration["JWT:Issuer"],
+            // validate the issuer (who ever is issuing the JWT)
+            ValidateIssuer = true,
+            // don't validate audience (angular side)
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -50,10 +77,26 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseHttpsRedirection();
+
+app.UseCors(builder =>
+{
+    builder.AllowAnyHeader()
+           .AllowAnyMethod()
+           .AllowCredentials()
+           .WithOrigins("http://localhost:4200");
+});
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
+});
+
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -61,6 +104,15 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
+#pragma warning disable ASP0014
+app.UseEndpoints(endpoints =>
+{
+endpoints.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{Id?}");
+    endpoints.MapRazorPages();
+});
 
 // Add admin or user role if It's not exist
 await SeedRolesAsync(app);

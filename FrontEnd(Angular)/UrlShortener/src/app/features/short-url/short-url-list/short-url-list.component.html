@@ -1,0 +1,35 @@
+<div class="container">
+
+    <h1 class="mt-3">
+        Short URLs table
+    </h1>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a [routerLink]="['/ShortUrl/Create']" class="btn btn-primary">
+            Add new Short URL
+        </a>
+    </div>
+    
+    <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Original URL</th>
+            <th>Shortened URL</th>
+            <th>Code</th>
+            <th>Created By</th>
+            <th>Created Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let shortUrl of shortUrls">
+            <td>{{ shortUrl.id }}</td>
+            <td>{{ shortUrl.originalUrl }}</td>
+            <td>{{ shortUrl.shortenedUrl }}</td>
+            <td>{{ shortUrl.code }}</td>
+            <td>{{ shortUrl.createdBy }}</td>
+            <td>{{ shortUrl.createdDate }}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>

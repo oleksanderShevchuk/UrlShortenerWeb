@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UrlShortenerWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02eb9974a76c5f1470b44da9dc7fbbe20f8a6e4e")]
 [assembly: System.Reflection.AssemblyProductAttribute("UrlShortenerWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UrlShortenerWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
