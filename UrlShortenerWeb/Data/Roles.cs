@@ -1,4 +1,4 @@
-﻿namespace UrlShortenerWeb.Areas.Identity.Data
+﻿namespace UrlShortenerWeb.Data
 {
     /// <summary>
     /// class for role name

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace UrlShortenerWeb.Areas.Identity.Data;
+namespace UrlShortenerWeb.Data;
 
 // Add profile data for application users by adding properties to the  class
-public class ApplicationUser: IdentityUser
+public class ApplicationUser : IdentityUser
 {
 }
 

@@ -282,8 +282,6 @@ C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\Url
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\UrlShortenerWeb.csproj.CoreCompileInputs.cache
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\UrlShortenerWeb.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\UrlShortenerWeb.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\UrlShortenerWeb.RazorAssemblyInfo.cache
-C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\UrlShortenerWeb.RazorAssemblyInfo.cs
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\UrlShortenerWeb.sourcelink.json
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\UrlShortenerWeb.dll
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\refint\UrlShortenerWeb.dll
@@ -547,9 +545,7 @@ C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\sta
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.UrlShortenerWeb.props
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.UrlShortenerWeb.props
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\scopedcss\bundle\UrlShortenerWeb.styles.css
-C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\scopedcss\projectbundle\UrlShortenerWeb.bundle.scp.css
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\UrlShortenerWeb.csproj.CopyComplete
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\UrlShortenerWeb.genruntimeconfig.cache
 C:\Users\oleks\source\repos\UrlShortenerWeb\UrlShortenerWeb\obj\Debug\net8.0\ref\UrlShortenerWeb.dll

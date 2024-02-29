@@ -3,13 +3,16 @@
       <h4 class="text-center text-primary m-3"> Short URL</h4>
     </div>
 
-    <form  (ngSubmit)="onSubmit()">
-        <label for="originalUrl">Original URL:</label>
-        <input type="text" id="originalUrl" name="originalUrl" [(ngModel)]="originalUrl" required>
+    <form [formGroup]="urlForm" (ngSubmit)="onSubmit()">
+        <input type="text" formControlName="originalUrl" placeholder="Enter original URL">
         <button type="submit">Create Short URL</button>
+        <div *ngIf="urlForm.controls['originalUrl'].invalid && urlForm.controls['originalUrl'].touched">
+            <div *ngIf="urlForm.controls['originalUrl'].errors?.['required']">URL is required.</div>
+            <div *ngIf="urlForm.controls['originalUrl'].errors?.['pattern']">Invalid URL format.</div>
+        </div>
+                
       </form>
       
-
     <!-- <form #form="ngForm" (ngSubmit)="onSubmit()">
         <div class="row shadow mt-3">
             <div class="card">

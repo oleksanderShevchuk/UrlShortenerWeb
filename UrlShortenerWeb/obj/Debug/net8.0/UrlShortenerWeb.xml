@@ -4,107 +4,17 @@
         <name>UrlShortenerWeb</name>
     </assembly>
     <members>
-        <member name="T:UrlShortenerWeb.Areas.Identity.Data.Roles">
+        <member name="T:UrlShortenerWeb.Data.Roles">
             <summary>
             class for role name
             </summary>
         </member>
-        <member name="F:UrlShortenerWeb.Areas.Identity.Data.Roles.Admin">
+        <member name="F:UrlShortenerWeb.Data.Roles.Admin">
             <summary>
             Accessible by users who have admin role
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "F:UrlShortenerWeb.Areas.Identity.Data.Roles.User" -->
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.LoginModel.Input">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.LoginModel.ExternalLogins">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.LoginModel.ReturnUrl">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.LoginModel.ErrorMessage">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="T:UrlShortenerWeb.Areas.Identity.Pages.Account.LoginModel.InputModel">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.LoginModel.InputModel.Email">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.LoginModel.InputModel.Password">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.LoginModel.InputModel.RememberMe">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.RegisterModel.Input">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.RegisterModel.ReturnUrl">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.RegisterModel.ExternalLogins">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="T:UrlShortenerWeb.Areas.Identity.Pages.Account.RegisterModel.InputModel">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.RegisterModel.InputModel.Email">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.RegisterModel.InputModel.Password">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
-        <member name="P:UrlShortenerWeb.Areas.Identity.Pages.Account.RegisterModel.InputModel.ConfirmPassword">
-            <summary>
-                This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-                directly from your code. This API may change or be removed in future releases.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "F:UrlShortenerWeb.Data.Roles.User" -->
         <member name="T:UrlShortenerWeb.Helpers.ShortUrlHelper">
              ShortURL: Bijective conversion between natural numbers (IDs) and short strings
             

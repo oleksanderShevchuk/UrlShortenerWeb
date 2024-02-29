@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CsrfTokenService } from './csrf-token.service';
+import { DataService } from './data.service';
 
-describe('CsrfTokenService', () => {
-  let service: CsrfTokenService;
+describe('DataService', () => {
+  let service: DataService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CsrfTokenService);
+    service = TestBed.inject(DataService);
   });
 
   it('should be created', () => {

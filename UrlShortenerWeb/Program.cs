@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Net;
 using System.Text;
-using UrlShortenerWeb.Areas.Identity.Data;
 using UrlShortenerWeb.Data;
 using UrlShortenerWeb.Filters;
 using UrlShortenerWeb.Models;
@@ -18,34 +18,13 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>();
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddRoleManager<RoleManager<IdentityRole>>() // be able to make use of RoleManager
+    .AddSignInManager<SignInManager<ApplicationUser>>() // make use of Signin manager
+    .AddUserManager<UserManager<ApplicationUser>>() // make use of UserManager to create users
+    .AddDefaultTokenProviders(); // be able to create tokens for email confirmation
 
-builder.Services.AddAuthorization(o =>
-{
-    // Only admin can access.
-    o.AddPolicy(Roles.Admin, p => p.RequireRole(Roles.Admin));
-});
-
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
-});
-
-// Add services to the container.
-//builder.Services.AddControllersWithViews(option => option.Filters.Add(new ValidationFilter()));
-builder.Services.AddRazorPages();
-
-builder.Services.AddScoped<IUrlShorteningService, UrlShorteningService>();
-builder.Services.AddScoped<IDescriptionService, DescriptionService>();
-builder.Services.AddScoped<JWTService>();
-
-builder.Services.AddAutoMapper(typeof(Program));
-
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    options.Password.RequireUppercase = false;
-});
-
+// be able to authenticate users using JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -60,16 +39,74 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             // validate the issuer (who ever is issuing the JWT)
             ValidateIssuer = true,
             // don't validate audience (angular side)
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
+            ValidateAudience = false
         };
     });
-builder.Services.AddCors();
+
+builder.Services.AddAuthorization(o =>
+{
+    // Only admin can access.
+    o.AddPolicy(Roles.Admin, p => p.RequireRole(Roles.Admin));
+});
+
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddAntiforgery(options => options.HeaderName = "X-CSRF-Token");
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<JWTService>();
+builder.Services.AddControllers();
+
+builder.Services.AddControllersWithViews(option => option.Filters.Add(new ValidationFilter()));
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<IUrlShorteningService, UrlShorteningService>();
+builder.Services.AddScoped<IDescriptionService, DescriptionService>();
+builder.Services.AddScoped<JWTService>();
+
+builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = actionContext =>
+    {
+        var errors = actionContext.ModelState
+        .Where(x => x.Value.Errors.Count > 0)
+        .SelectMany(x => x.Value.Errors)
+        .Select(x => x.ErrorMessage).ToArray();
+
+        var toReturn = new
+        {
+            Errors = errors
+        };
+
+        return new BadRequestObjectResult(toReturn);
+    };
+});
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShortenerUrl", Version = "v1" });
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseCors("AllowAllOrigins");
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -77,20 +114,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseHttpsRedirection();
-
-app.UseCors(builder =>
-{
-    builder.AllowAnyHeader()
-           .AllowAnyMethod()
-           .AllowCredentials()
-           .WithOrigins("http://localhost:4200");
-});
-
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
-});
 
 app.UseStaticFiles();
 
@@ -105,13 +128,11 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-#pragma warning disable ASP0014
-app.UseEndpoints(endpoints =>
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-endpoints.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{Id?}");
-    endpoints.MapRazorPages();
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ShortenerUrl");
+    c.RoutePrefix = string.Empty; // Set Swagger UI at the root URL
 });
 
 // Add admin or user role if It's not exist

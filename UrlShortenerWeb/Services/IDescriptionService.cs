@@ -1,5 +1,5 @@
-﻿using UrlShortenerWeb.Models;
-using UrlShortenerWeb.Models.DTO;
+﻿using UrlShortenerWeb.DTO;
+using UrlShortenerWeb.Models;
 
 namespace UrlShortenerWeb.Services
 {

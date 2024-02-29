@@ -1,4 +1,4 @@
-import { NgModule, input } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +12,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule} from 'primeng/button';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from './shared/shared.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -19,7 +25,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     NavbarComponent,
     ShortUrlListComponent,
     CreateShortUrlComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,9 +36,12 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     InputTextModule,
     ReactiveFormsModule,
     ButtonModule,
+    SharedModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
-    provideClientHydration()
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

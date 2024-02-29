@@ -1,9 +1,8 @@
 ﻿using UrlShortenerWeb.Data;
-using UrlShortenerWeb.Models.DTO;
 using AutoMapper;
-using UrlShortenerWeb.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
 using UrlShortenerWeb.Models;
+using UrlShortenerWeb.DTO;
 
 namespace UrlShortenerWeb.Services
 {

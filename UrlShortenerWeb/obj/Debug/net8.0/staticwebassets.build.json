@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "NohD+pzKq5xn/j8309MGAFu7BlWuGvW9m12Rnmo2KaE=",
+  "Hash": "dNAH4wiL6yy/M//K0BF/AaFjLBvTP0mNsKdWqcXbWFg=",
   "Source": "UrlShortenerWeb",
   "BasePath": "_content/UrlShortenerWeb",
   "Mode": "Default",
@@ -1212,25 +1212,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\oleks\\source\\repos\\UrlShortenerWeb\\UrlShortenerWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\UrlShortenerWeb.styles.css"
-    },
-    {
-      "Identity": "C:\\Users\\oleks\\source\\repos\\UrlShortenerWeb\\UrlShortenerWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\UrlShortenerWeb.bundle.scp.css",
-      "SourceId": "UrlShortenerWeb",
-      "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\oleks\\source\\repos\\UrlShortenerWeb\\UrlShortenerWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
-      "BasePath": "_content/UrlShortenerWeb",
-      "RelativePath": "UrlShortenerWeb.bundle.scp.css",
-      "AssetKind": "All",
-      "AssetMode": "Reference",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "ScopedCss",
-      "AssetTraitValue": "ProjectBundle",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\oleks\\source\\repos\\UrlShortenerWeb\\UrlShortenerWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\UrlShortenerWeb.bundle.scp.css"
     },
     {
       "Identity": "C:\\Users\\oleks\\source\\repos\\UrlShortenerWeb\\UrlShortenerWeb\\wwwroot\\css\\site.css",

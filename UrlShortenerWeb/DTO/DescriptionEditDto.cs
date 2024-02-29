@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UrlShortenerWeb.Models.DTO
+namespace UrlShortenerWeb.DTO
 {
     public class DescriptionEditDto
     {

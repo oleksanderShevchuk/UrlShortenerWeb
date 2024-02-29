@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ShortUrlListComponent } from './features/short-url/short-url-list/short-url-list.component';
 import { CreateShortUrlComponent } from './features/short-url/create-short-url/create-short-url.component';
+import { NotFoundComponent } from './shared/components/errors/not-found/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -26,8 +27,8 @@ const routes: Routes = [
   // },
   // Implementing lazy loading by the following format
   { path: 'account', loadChildren: () => import('./account/account.module').then(module => module.AccountModule) },
-  // { path: 'not-found', component: NotFoundComponent },
-  // { path: '**', component: NotFoundComponent, pathMatch: 'full' }
+  { path: 'not-found', component: NotFoundComponent },
+  { path: '**', component: NotFoundComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -1,10 +1,6 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\oleks\\source\\repos\\UrlShortenerWeb\\UrlShortenerWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\UrlShortenerWeb.bundle.scp.css",
-      "PackagePath": "staticwebassets\\UrlShortenerWeb.bundle.scp.css"
-    },
-    {
       "Id": "C:\\Users\\oleks\\source\\repos\\UrlShortenerWeb\\UrlShortenerWeb\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using UrlShortenerWeb.Data;
 using UrlShortenerWeb.Models;
-using static UrlShortenerWeb.Models.Description;
 
 namespace UrlShortenerWeb.Controllers
 {

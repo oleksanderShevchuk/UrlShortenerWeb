@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using UrlShortenerWeb.Areas.Identity.Data;
 using UrlShortenerWeb.Models;
 
 namespace UrlShortenerWeb.Data
