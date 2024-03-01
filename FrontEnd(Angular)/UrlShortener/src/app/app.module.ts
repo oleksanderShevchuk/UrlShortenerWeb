@@ -17,6 +17,7 @@ import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import { ShortUrlInfoComponent } from './features/short-url/short-url-info/short-url-info.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { ToastrModule } from 'ngx-toastr';
     ShortUrlListComponent,
     CreateShortUrlComponent,
     FooterComponent,
+    ShortUrlInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,9 +38,8 @@ import { ToastrModule } from 'ngx-toastr';
     InputTextModule,
     ReactiveFormsModule,
     ButtonModule,
-    SharedModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}

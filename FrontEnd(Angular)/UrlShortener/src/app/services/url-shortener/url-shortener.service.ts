@@ -22,7 +22,7 @@ export class UrlShortenerService {
     );
   }
 
-  public getById(id: number): Observable<ShortUrl> {
+  public getShortUrlById(id: number): Observable<ShortUrl> {
     return this.httpClient.get<ShortUrl>(`${this.endPoint}/api/ShortUrl/get-by-id/${id}`)
       .pipe(
         catchError(error => {

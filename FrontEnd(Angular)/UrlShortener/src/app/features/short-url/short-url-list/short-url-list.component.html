@@ -1,10 +1,22 @@
 <div class="container">
   <!-- Short URLs Table -->
-  <h1 class="mt-3">Short URLs Table</h1>
+  <div>
+    <h1 class="mt-3">Short URLs Table</h1>
+    <div class="d-flex justify-content-end mt-3">
+      <a *ngIf="isAuthorized()" [routerLink]="['/ShortUrl/Create']" class="btn btn-primary">
+          Add new Short URL
+      </a>
+      <button *ngIf="isAdmin()" (click)="onDeleteAllUrls()" class="btn btn-danger ml-2">
+        Delete All URLs
+      </button>
+      <div *ngIf="allUrlsDeletedMessageVisible" class="alert alert-success mt-3">
+        All URLs have been deleted successfully.
+      </div>
+    </div>
+  </div>
   <table class="table mt-3">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Original URL</th>
         <th>Shortened URL</th>
         <th>Actions</th>
@@ -13,30 +25,14 @@
     <tbody>
       <!-- Table rows will be populated dynamically using Angular -->
       <tr *ngFor="let shortUrl of shortUrls">
-        <td>{{ shortUrl.id }}</td>
         <td>{{ shortUrl.originalUrl }}</td>
         <td>{{ shortUrl.shortenedUrl }}</td>
         <td>
           <!-- Action buttons for authorized users -->
-          <button *ngIf="isAuthorized()" (click)="viewDetails(shortUrl.id)" class="btn btn-sm btn-primary mr-2">View Details</button>
+          <button *ngIf="isAuthorized()" (click)="infoUrl(shortUrl.id)" class="btn btn-sm btn-primary mr-2">View Details</button>
           <button *ngIf="isAuthorized() && canDelete(shortUrl)" (click)="deleteUrl(shortUrl.id)" class="btn btn-sm btn-danger">Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
-
-  <!-- Add New URL Section -->
-  <div *ngIf="isAuthorized()" class="mt-4">
-    <h2>Add New URL</h2>
-    <!-- Form for adding new URL -->
-    <form (submit)="createUrl()">
-      <div class="form-group">
-        <label for="originalUrl">Original URL</label>
-        <input type="text" class="form-control" id="originalUrl" [(ngModel)]="newUrl" required>
-        <!-- Error message if URL already exists -->
-        <div *ngIf="urlExistsError" class="text-danger">URL already exists</div>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
 </div>

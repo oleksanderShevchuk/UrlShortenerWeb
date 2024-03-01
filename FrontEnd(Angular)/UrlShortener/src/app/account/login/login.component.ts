@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { User } from '../../models/user.model';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthorizationGuard } from '../../shared/guards/authorization.guard';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit{
   returnUrl: string | null = null;
 
   constructor(private accountService: AccountService,
+    private authorizationGuard: AuthorizationGuard,
     private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute) { 

@@ -9,7 +9,9 @@ import { User } from '../../models/user.model';
   providedIn: 'root'
 })
 export class AuthorizationGuard {
-  constructor(private accountService:AccountService,
+  private authToken: string | null = null;
+
+  constructor(private accountService: AccountService,
     private sharedService: SharedService,
     private router: Router) {}
 
@@ -28,5 +30,4 @@ export class AuthorizationGuard {
       })
     );
   }
-  
 }

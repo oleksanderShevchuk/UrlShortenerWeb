@@ -64,6 +64,10 @@ namespace UrlShortenerWeb.Controllers
 
             // creates a user inside our AspNetUsers table inside our database
             var result = await _userManager.CreateAsync(userToAdd, model.Password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(userToAdd, Roles.User);
+            }
 
             return Ok(new JsonResult(new { title = "Account Created", message = "Your account has been created, you can login" }));
         }
@@ -73,8 +77,10 @@ namespace UrlShortenerWeb.Controllers
         {
             return new AppUserDto
             {
+                Id = user.Id,
                 Email = user.Email,
                 JWT = _jwtService.CreateJWT(user),
+                Role = _userManager.GetRolesAsync(user).Result.FirstOrDefault(),
             };
         }
 

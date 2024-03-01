@@ -15,12 +15,11 @@ export class AccountService {
   private userSource = new ReplaySubject<User | null>(1);
   user$ = this.userSource.asObservable();
   private isAuthenticated: boolean = false;
-  private userId: string | null = null;
 
   constructor(
     private http: HttpClient, 
     private router: Router, 
-    @Inject(PLATFORM_ID) private platformId: Object) { }
+    @Inject(PLATFORM_ID) private platformId: Object,) { }
   
   refreshUser(jwt: string | null) {
     if (jwt === null) {
@@ -41,10 +40,16 @@ export class AccountService {
   }
 
   login(model: Login) {
+    debugger
     return this.http.post<User>(`${environment.endpoint}/api/account/login`, model)
     .pipe(
       map((user: User) => {
         if (user) {
+          // Assuming the JWT token is returned from the server as a property named 'token'
+          const jwt = user.jwt;
+          if (jwt) {
+            user.jwt = jwt; // Set the JWT token in the user object
+          }
           this.setUser(user);
         }
       })
@@ -56,7 +61,6 @@ export class AccountService {
     this.userSource.next(null);
     this.router.navigateByUrl('/');
     this.isAuthenticated = false;
-    this.userId = null;
   }
 
   register(model: Register) {
@@ -64,6 +68,7 @@ export class AccountService {
   }
 
   getJWT() {
+    debugger
     if (isPlatformBrowser(this.platformId)) {
       const key = localStorage.getItem(environment.userKey);
       if (key) {
@@ -88,7 +93,19 @@ export class AccountService {
     const userStr = localStorage.getItem(environment.userKey);
     if (userStr) {
       const user: User = JSON.parse(userStr);
-      //return user.userId;
+      if (user.id) {
+        return user.id;
+      }
+    }
+    return null;
+  }
+  getUserRole(): string | null {
+    const userStr = localStorage.getItem(environment.userKey);
+    if (userStr) {
+      const user: User = JSON.parse(userStr);
+      if (user && user.role) { // Assuming 'role' is the property representing the user's role
+        return user.role;
+      }
     }
     return null;
   }

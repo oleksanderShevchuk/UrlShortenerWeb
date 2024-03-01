@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UrlShortenerService } from '../../../services/url-shortener/url-shortener.service';
 import { ShortUrl } from '../../../models/short-url.model';
 import { Router } from '@angular/router';
 import { AccountService } from '../../../account/account.service';
+import { environment } from '../../../../environments/environment';
+import { catchError, of } from 'rxjs';
+import { ShortUrlInfoComponent } from '../short-url-info/short-url-info.component';
+import { AdminService } from '../../../services/admin/admin.service';
 
 @Component({
   selector: 'app-short-url-list',
@@ -13,11 +17,15 @@ export class ShortUrlListComponent implements OnInit{
   shortUrls: ShortUrl[] = [];
   newUrl: string = '';
   urlExistsError: boolean = false;
+  allUrlsDeletedMessageVisible: boolean = false;
+  @Input()
+  public requiredRoles: string[] = []; 
 
   constructor(
     private urlShortenerService: UrlShortenerService,
     private router: Router,
     private accountService: AccountService,
+    private adminService: AdminService,
   ) { }
 
   ngOnInit(): void {
@@ -37,51 +45,6 @@ export class ShortUrlListComponent implements OnInit{
       console.error('Error deleting short URL:', error);
     });
   }
-
-  // Optional: Add a method to navigate to the Short URL Info view
-  navigateToUrlInfo(id: number): void {
-    this.router.navigate(['/url-info', id]);
-  }
-
-  isAuthorized(): boolean {
-    return this.accountService.isAuthenticatedUser();
-  }
-
-  createUrl(): void {
-    // Check if the URL is not empty
-    if (this.newUrl.trim() === '') {
-      return; // Do nothing if the URL is empty
-    }
-
-    // Send a request to the backend API to add the new URL
-    this.urlShortenerService.create(this.newUrl).subscribe(
-      () => {
-        // Clear the input field and reset the URL exists error
-        this.newUrl = '';
-        this.urlExistsError = false;
-        // Refresh the list of URLs after addition
-        this.fetchShortUrls();
-      },
-      error => {
-        // If an error occurs, check if it's due to URL already existing
-        if (error.status === 400 && error.error && error.error.ModelState && error.error.ModelState[""]) {
-          this.urlExistsError = true; // Set the URL exists error flag
-        }
-      }
-    );
-  }
-
-  canDelete(shortUrl: ShortUrl): boolean {
-    // Implement logic to check if user can delete the URL
-    // Example: Check if the user is the creator of the URL
-    return shortUrl.createdBy === this.accountService.getUserId();
-  }
-
-  viewDetails(id: number): void {
-    // Navigate to the URL details page with the specified ID
-    this.router.navigate(['/url-info', id]);
-  }
-
   deleteUrl(id: number): void {
     // Implement logic to delete the URL
     // Example: Call a method in the UrlShortenerService to delete the URL
@@ -89,5 +52,45 @@ export class ShortUrlListComponent implements OnInit{
       // Refresh the list of URLs after deletion
       this.fetchShortUrls();
     });
+  }
+
+  isAuthorized(): boolean {
+    return this.accountService.isAuthenticatedUser();
+  }
+
+  canDelete(shortUrl: ShortUrl): boolean {
+    const userId = this.accountService.getUserId();
+    const userRole = this.accountService.getUserRole();
+    return (
+      userId !== null &&
+      (shortUrl.createdBy === userId || userRole === 'Admin')
+    );
+  }
+
+  infoUrl(id: number): void {
+    debugger
+    //this.shortUrlInfo.fetchShortUrlDetails(id);
+  }
+  
+  onDeleteAllUrls(): void {
+    if (confirm('Are you sure you want to delete all URLs?')) {
+      this.adminService.deleteAllUrls().subscribe(
+        () => {
+          console.log('All URLs deleted successfully.');
+          this.allUrlsDeletedMessageVisible = true; // Show the success message
+          // Optionally, refresh the table or perform any other action
+          setTimeout(() => {
+            this.allUrlsDeletedMessageVisible = false; // Hide the success message after some time
+          }, 3000); // Adjust the time (in milliseconds) as needed
+        },
+        (error) => {
+          console.error('Error deleting all URLs:', error);
+        }
+      );
+    }
+  }
+  isAdmin(): boolean {
+    const userRole = this.accountService.getUserRole();
+    return userRole === 'Admin';
   }
 }

@@ -1,5 +1,6 @@
 export interface User {
-    //userId: string;
+    id: string;
     email: string;
     jwt: string;
+    role: string;
 }

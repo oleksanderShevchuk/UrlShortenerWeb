@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UrlShortenerWeb.Data;
 using UrlShortenerWeb.DTO;
@@ -6,19 +7,19 @@ using UrlShortenerWeb.Services;
 
 namespace UrlShortenerWeb.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : Controller
     {
-        private readonly UrlShorteningService _urlService;
-        private readonly DescriptionService _descriptionService;
+        private readonly IUrlShorteningService _urlService;
+        private readonly IDescriptionService _descriptionService;
 
-        public AdminController(UrlShorteningService urlService, DescriptionService descriptionService)
+        public AdminController(IUrlShorteningService urlService, IDescriptionService descriptionService)
         {
             _urlService = urlService;
             _descriptionService = descriptionService;
         }
-        [Authorize(Roles = Roles.Admin)]
         [HttpGet("description/{id}")]
         public IActionResult GetDescription(int id)
         {
@@ -29,17 +30,21 @@ namespace UrlShortenerWeb.Controllers
             }
             return Ok(description);
         }
-        [Authorize(Roles = Roles.Admin)]
         [HttpPost("description/edit")]
         public async Task<IActionResult> EditDescription(DescriptionEditDto descriptionDto)
         {
             await _descriptionService.EditDescriptionAsync(descriptionDto);
             return Ok(); 
         }
-        [Authorize(Roles.Admin)]
         [HttpPost("urls/delete-all")]
         public IActionResult DeleteAllUrls()
         {
+            // Check if the user has the required role
+            var role = User.IsInRole(Roles.Admin);
+            if (!User.IsInRole(Roles.Admin))
+            {
+                return StatusCode(403); // Forbidden status code
+            }
             _urlService.DeleteAllUrl();
             return Ok();
         }
