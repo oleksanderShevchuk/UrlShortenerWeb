@@ -1,9 +1,7 @@
-<h3>Short Url Info</h3>
-<div *ngIf="shortUrl">
-    <h2>Short URL Information</h2>
-    <p>Original URL: {{ shortUrl.originalUrl }}</p>
-    <p>Shortened URL: {{ shortUrl.shortenedUrl }}</p>
-    <p>Created By: {{ shortUrl.createdBy }}</p>
-    <p>Created Date: {{ shortUrl.createdDate }}</p>
-  </div>
-  
+<div *ngIf="shortUrl" class="mt-3">
+  <h2>Short URL Information</h2>
+  <p>Original URL: {{ shortUrl.originalUrl }}</p>
+  <p>Shortened URL: {{ shortUrl.shortenedUrl }}</p>
+  <p>Created By: {{ shortUrl.createdBy }}</p>
+  <p>Created Date: {{ shortUrl.createdDate | date }}</p>
+</div>

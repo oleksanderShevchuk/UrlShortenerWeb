@@ -41,12 +41,13 @@ export class ShortUrlListComponent implements OnInit{
     });
   }
   deleteUrl(id: number): void {
-    // Implement logic to delete the URL
-    // Example: Call a method in the UrlShortenerService to delete the URL
+    const confirmed = window.confirm('Are you sure you want to delete this URL?');
+    if (confirmed) {
     this.urlShortenerService.delete(id).subscribe(() => {
       // Refresh the list of URLs after deletion
       this.fetchShortUrls();
     });
+    }
   }
 
   isAuthorized(): boolean {

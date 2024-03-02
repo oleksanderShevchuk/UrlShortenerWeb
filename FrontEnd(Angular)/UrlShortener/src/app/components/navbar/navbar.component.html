@@ -34,7 +34,7 @@
 
               <div class="d-flex align-items-center" *ngIf="(accountService.user$ | async) as user">
                   <a class="text-white" style="text-decoration: none; cursor: pointer;">
-                      Hi <span class="h3 text-warning">{{user.email | titlecase}}</span>
+                      Hi <span class="h5">{{user.email | titlecase}}</span>
                   </a>
                   <a class="btn btn-secondary ms-2" (click)="logout()">Logout</a>
               </div>
