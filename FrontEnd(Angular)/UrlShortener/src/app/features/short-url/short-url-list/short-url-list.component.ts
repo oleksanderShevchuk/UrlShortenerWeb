@@ -1,12 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UrlShortenerService } from '../../../services/url-shortener/url-shortener.service';
-import { ShortUrl } from '../../../models/short-url.model';
-import { Router } from '@angular/router';
+import { ShortUrl } from '../../../models/short-url/short-url.model';
 import { AccountService } from '../../../account/account.service';
-import { environment } from '../../../../environments/environment';
-import { catchError, of } from 'rxjs';
-import { ShortUrlInfoComponent } from '../short-url-info/short-url-info.component';
 import { AdminService } from '../../../services/admin/admin.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-short-url-list',
@@ -18,14 +15,12 @@ export class ShortUrlListComponent implements OnInit{
   newUrl: string = '';
   urlExistsError: boolean = false;
   allUrlsDeletedMessageVisible: boolean = false;
-  @Input()
-  public requiredRoles: string[] = []; 
 
   constructor(
     private urlShortenerService: UrlShortenerService,
-    private router: Router,
     private accountService: AccountService,
     private adminService: AdminService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -69,7 +64,7 @@ export class ShortUrlListComponent implements OnInit{
 
   infoUrl(id: number): void {
     debugger
-    //this.shortUrlInfo.fetchShortUrlDetails(id);
+    this.router.navigate(['/short-url-info', id]);
   }
   
   onDeleteAllUrls(): void {

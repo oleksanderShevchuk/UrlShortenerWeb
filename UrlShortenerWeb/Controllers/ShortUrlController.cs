@@ -38,8 +38,8 @@ namespace UrlShortenerWeb.Controllers
             return Ok(shortUrl);
         }
 
-        [HttpGet("url-info/{id}")]
         [Authorize]
+        [HttpGet("url-info/{id}")]
         public IActionResult UrlInfo(int id)
         {
             ShortUrl shortUrl = _urlService.GetById(id);
@@ -92,6 +92,12 @@ namespace UrlShortenerWeb.Controllers
             }
             _urlService.DeleteById(id);
             return Ok(new { success = true }); // Return success response
+        }
+        [HttpPost("check-url-exists")]
+        public IActionResult CheckUrlExists([FromBody] string originalUrl)
+        {
+            var urlExists = _urlService.GetByOriginalUrl(originalUrl) != null;
+            return Ok(urlExists);
         }
     }
 }

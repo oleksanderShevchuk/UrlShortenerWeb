@@ -3,7 +3,7 @@
   <div>
     <h1 class="mt-3">Short URLs Table</h1>
     <div class="d-flex justify-content-end mt-3">
-      <a *ngIf="isAuthorized()" [routerLink]="['/ShortUrl/Create']" class="btn btn-primary">
+      <a *ngIf="isAuthorized()" [routerLink]="['/shortUrl/create']" class="btn btn-primary">
           Add new Short URL
       </a>
       <button *ngIf="isAdmin()" (click)="onDeleteAllUrls()" class="btn btn-danger ml-2">
@@ -19,7 +19,7 @@
       <tr>
         <th>Original URL</th>
         <th>Shortened URL</th>
-        <th>Actions</th>
+        <th *ngIf="isAuthorized()">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -27,10 +27,10 @@
       <tr *ngFor="let shortUrl of shortUrls">
         <td>{{ shortUrl.originalUrl }}</td>
         <td>{{ shortUrl.shortenedUrl }}</td>
-        <td>
+        <td *ngIf="isAuthorized()">
           <!-- Action buttons for authorized users -->
-          <button *ngIf="isAuthorized()" (click)="infoUrl(shortUrl.id)" class="btn btn-sm btn-primary mr-2">View Details</button>
-          <button *ngIf="isAuthorized() && canDelete(shortUrl)" (click)="deleteUrl(shortUrl.id)" class="btn btn-sm btn-danger">Delete</button>
+          <button  (click)="infoUrl(shortUrl.id)" class="btn btn-sm btn-primary mr-2">View Details</button>
+          <button *ngIf="canDelete(shortUrl)" (click)="deleteUrl(shortUrl.id)" class="btn btn-sm btn-danger">Delete</button>
         </td>
       </tr>
     </tbody>

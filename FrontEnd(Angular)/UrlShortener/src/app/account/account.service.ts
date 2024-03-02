@@ -2,10 +2,10 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ReplaySubject, map, of } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { User } from '../models/user.model';
+import { User } from '../models/account/user.model';
 import { Router } from '@angular/router';
-import { Login } from '../models/login.model';
-import { Register } from '../models/register.model';
+import { Login } from '../models/account/login.model';
+import { Register } from '../models/account/register.model';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
@@ -40,7 +40,6 @@ export class AccountService {
   }
 
   login(model: Login) {
-    debugger
     return this.http.post<User>(`${environment.endpoint}/api/account/login`, model)
     .pipe(
       map((user: User) => {
@@ -68,7 +67,6 @@ export class AccountService {
   }
 
   getJWT() {
-    debugger
     if (isPlatformBrowser(this.platformId)) {
       const key = localStorage.getItem(environment.userKey);
       if (key) {
@@ -100,13 +98,21 @@ export class AccountService {
     return null;
   }
   getUserRole(): string | null {
-    const userStr = localStorage.getItem(environment.userKey);
-    if (userStr) {
-      const user: User = JSON.parse(userStr);
-      if (user && user.role) { // Assuming 'role' is the property representing the user's role
-        return user.role;
+    if (typeof localStorage !== 'undefined') {
+      const userStr = localStorage.getItem(environment.userKey);
+      if (userStr) {
+        try {
+          const user: User = JSON.parse(userStr);
+          if (user && user.role) {
+            return user.role;
+          }
+        } catch (error) {
+          console.error('Error parsing user data from localStorage:', error);
+        }
       }
+    } else {
+      console.error('localStorage is not available.');
     }
     return null;
-  }
+  }  
 }

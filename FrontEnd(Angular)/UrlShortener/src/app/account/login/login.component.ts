@@ -3,8 +3,7 @@ import { AccountService } from '../account.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
-import { User } from '../../models/user.model';
-import { ReactiveFormsModule } from '@angular/forms';
+import { User } from '../../models/account/user.model';
 import { AuthorizationGuard } from '../../shared/guards/authorization.guard';
 
 @Component({
@@ -53,6 +52,7 @@ export class LoginComponent implements OnInit{
   }
 
   login() {
+    debugger
     this.submitted = true;
     this.errorMessages = [];
 

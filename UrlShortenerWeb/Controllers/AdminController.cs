@@ -7,7 +7,7 @@ using UrlShortenerWeb.Services;
 
 namespace UrlShortenerWeb.Controllers
 {
-    [Authorize(Roles = Roles.Admin)]
+    //[Authorize(Roles = Roles.Admin)]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : Controller
@@ -20,6 +20,7 @@ namespace UrlShortenerWeb.Controllers
             _urlService = urlService;
             _descriptionService = descriptionService;
         }
+        [AllowAnonymous]
         [HttpGet("description/{id}")]
         public IActionResult GetDescription(int id)
         {
@@ -30,7 +31,7 @@ namespace UrlShortenerWeb.Controllers
             }
             return Ok(description);
         }
-        [HttpPost("description/edit")]
+        [HttpPut("description/edit")]
         public async Task<IActionResult> EditDescription(DescriptionEditDto descriptionDto)
         {
             await _descriptionService.EditDescriptionAsync(descriptionDto);

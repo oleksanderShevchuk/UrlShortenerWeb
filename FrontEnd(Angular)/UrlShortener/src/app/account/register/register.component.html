@@ -43,7 +43,7 @@
                   <span class="text-danger" *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('required')">
                       Confirm Password is required
                   </span>
-                  <span class="text-danger" *ngIf="submitted && registerForm.hasError('passwordMismatch')">
+                  <span class="text-danger" *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('passwordMismatch')">
                       Passwords do not match
                   </span>
               </div>

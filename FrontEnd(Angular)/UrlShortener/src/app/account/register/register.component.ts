@@ -3,7 +3,7 @@ import { AccountService } from '../account.service';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
-import { User } from '../../models/user.model';
+import { User } from '../../models/account/user.model';
 import { SharedService } from '../../shared/shared.service';
 
 @Component({
