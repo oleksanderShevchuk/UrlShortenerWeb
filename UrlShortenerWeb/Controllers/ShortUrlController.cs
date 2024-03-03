@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using UrlShortenerWeb.Models;
-using UrlShortenerWeb.Services;
 using Microsoft.AspNetCore.Authorization;
 using UrlShortenerWeb.Data;
+using UrlShortenerWeb.Interfaces;
 
 namespace UrlShortenerWeb.Controllers
 {
@@ -29,18 +29,6 @@ namespace UrlShortenerWeb.Controllers
 
         [HttpGet("get-by-id/{id}")]
         public IActionResult GetById(int id)
-        {
-            ShortUrl shortUrl = _urlService.GetById(id);
-            if (shortUrl == null)
-            {
-                return NotFound();
-            }
-            return Ok(shortUrl);
-        }
-
-        [Authorize]
-        [HttpGet("url-info/{id}")]
-        public IActionResult UrlInfo(int id)
         {
             ShortUrl shortUrl = _urlService.GetById(id);
             if (shortUrl == null)

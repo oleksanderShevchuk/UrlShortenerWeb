@@ -1,6 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using UrlShortenerWeb.Services.Attributes;
+﻿using System.ComponentModel.DataAnnotations;
+using UrlShortenerWeb.Attributes;
 
 namespace UrlShortenerWeb.Models
 {

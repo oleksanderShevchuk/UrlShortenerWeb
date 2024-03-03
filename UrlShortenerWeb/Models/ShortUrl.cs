@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using UrlShortenerWeb.Services.Attributes;
+using UrlShortenerWeb.Attributes;
 
 namespace UrlShortenerWeb.Models
 {

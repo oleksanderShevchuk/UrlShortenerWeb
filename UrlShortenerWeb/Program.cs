@@ -7,7 +7,8 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using UrlShortenerWeb.Data;
 using UrlShortenerWeb.Filters;
-using UrlShortenerWeb.Models;
+using UrlShortenerWeb.Interfaces;
+using UrlShortenerWeb.Seeds;
 using UrlShortenerWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,6 +65,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUrlShorteningService, UrlShorteningService>();
 builder.Services.AddScoped<IDescriptionService, DescriptionService>();
 builder.Services.AddScoped<JWTService>();
+builder.Services.AddScoped<IdentitySeed>();
+builder.Services.AddScoped<DescriptionSeed>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -134,71 +137,21 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty; // Set Swagger UI at the root URL
 });
 
-// Add admin or user role if It's not exist
-await SeedRolesAsync(app);
+using (var scope = app.Services.CreateScope())
+{
+    // Add admin or user role if It's not exist
+    var identitySeed = scope.ServiceProvider.GetRequiredService<IdentitySeed>();
+    await identitySeed.seedDefaultIdentities();
 
-// Seed descriptions asynchronously
-await SeedDescriptionsAsync(app);
+    // Seed descriptions asynchronously
+    var descriptionSeed = scope.ServiceProvider.GetRequiredService<DescriptionSeed>();
+    await descriptionSeed.SeedDescriptionsAsync();
+}
 
 // The functionality of switching to the original URL using a short URL
 RedirectToOriginalUrl(app);
 
 app.Run();
-
-static async Task SeedRolesAsync(WebApplication app)
-{
-    using (var scope = app.Services.CreateScope())
-    {
-        try
-        {
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var roles = new[] { Roles.Admin, Roles.User };
-
-            foreach (var role in roles)
-            {
-                if (!await roleManager.RoleExistsAsync(role))
-                {
-                    await roleManager.CreateAsync(new IdentityRole(role));
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-            logger.LogError(ex, "An error occurred while seeding roles.");
-        }
-    }
-}
-static async Task SeedDescriptionsAsync(WebApplication app)
-{
-    const string contentForDescriptionIfEmpty = "Our URL Shortener employs a unique algorithm to generate " +
-        "short equivalents of long URLs. When you submit a long URL to be shortened, our algorithm creates " +
-        "a compact and memorable short URL that redirects to the original long URL. This allows you to share " +
-        "links more efficiently, especially on platforms with character limits.";
-    using var scope = app.Services.CreateScope();
-    var services = scope.ServiceProvider;
-    try
-    {
-        var dbContext = services.GetRequiredService<AppDbContext>();
-        // Check if descriptions exist, if not, seed them
-        if (!dbContext.Descriptions.Any())
-        {
-            var description = new Description
-            {
-                Type = Description.DescriptionType.ShorterAlgorithmDescription,
-                Content = contentForDescriptionIfEmpty,
-                LastUpdatedTime = DateTime.UtcNow,
-            };
-            dbContext.Descriptions.Add(description);
-            await dbContext.SaveChangesAsync();
-        }
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while seeding descriptions.");
-    }
-}
 
 static void RedirectToOriginalUrl(WebApplication app)
 {

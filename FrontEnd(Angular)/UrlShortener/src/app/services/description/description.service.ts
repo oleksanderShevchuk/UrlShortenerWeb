@@ -12,7 +12,7 @@ export class DescriptionService {
   constructor(private http: HttpClient) { }
 
   getDescription(id: number): Observable<Description> {
-    return this.http.get<Description>(`${environment.endpoint}/api/Admin/description/${id}`);
+    return this.http.get<Description>(`${environment.endpoint}/api/Home/description/${id}`);
   }
 
   editDescription(descriptionDto: DescriptionEditDto): Observable<void> {

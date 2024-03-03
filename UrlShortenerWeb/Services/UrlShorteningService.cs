@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Security.Policy;
-using UrlShortenerWeb.Data;
+﻿using UrlShortenerWeb.Data;
 using UrlShortenerWeb.Helpers;
+using UrlShortenerWeb.Interfaces;
 using UrlShortenerWeb.Models;
 
 namespace UrlShortenerWeb.Services

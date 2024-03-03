@@ -26,6 +26,7 @@ export class DescriptionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    debugger
     const id = 1;
     this.descriptionService.getDescription(id).subscribe(
       (data) => {

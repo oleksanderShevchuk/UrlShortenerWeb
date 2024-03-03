@@ -13,7 +13,7 @@ namespace UrlShortenerWeb.Helpers
     public class ShortUrlHelper
     {
         private const string Alphabet = "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_";
-        private static readonly int NumberOfCharsInShortUrl = 8;
+        private const int NumberOfCharsInShortUrl = 8;
         private static Random _random = new Random();
 
         public static string GenerateUniqueCode()

@@ -1,8 +1,7 @@
 ﻿using UrlShortenerWeb.Data;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using UrlShortenerWeb.Models;
 using UrlShortenerWeb.DTO;
+using UrlShortenerWeb.Interfaces;
 
 namespace UrlShortenerWeb.Services
 {
@@ -14,15 +13,16 @@ namespace UrlShortenerWeb.Services
         {
             _context = context;
         }
-        [Authorize(Roles = Roles.Admin)]
         public async Task EditDescriptionAsync(DescriptionEditDto descriptionDto)
         {
             // Retrieve the existing description entity from the database
             var existingDescription = await _context.Descriptions.FindAsync(descriptionDto.Id);
 
+            // If the existing description is not found, return without performing any action
             if (existingDescription == null)
             {
-                throw new ArgumentException("Description with the specified ID not found.");
+                // Return null to indicate that the description was not found
+                return;
             }
 
             // Update the properties of the existing description entity

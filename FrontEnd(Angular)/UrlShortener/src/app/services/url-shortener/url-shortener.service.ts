@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ShortUrl } from '../../models/short-url/short-url.model';
 import { environment } from '../../../environments/environment';
+import { AccountService } from '../../account/account.service';
 
 
 @Injectable({
@@ -11,7 +12,8 @@ import { environment } from '../../../environments/environment';
 export class UrlShortenerService {
   private endPoint: string = environment.endpoint;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient,
+    private accountService: AccountService,) {}
 
   public getList(): Observable<ShortUrl[]> {
     return this.httpClient.get<ShortUrl[]>(`${this.endPoint}/api/ShortUrl/get`).pipe(
@@ -44,14 +46,24 @@ export class UrlShortenerService {
   } 
 
   public delete(id: number): Observable<any> {
-    return this.httpClient.delete<any>(`${this.endPoint}/api/ShortUrl/delete/${id}`)
+    // Obtain the JWT token from the account service
+    const token = this.accountService.getJWT();
+    if (!token) {
+      throw new Error('Authentication token is missing');
+    }
+    // Construct the request headers with the authorization token
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.delete<any>(`${this.endPoint}/api/ShortUrl/delete/${id}`, { headers })
       .pipe(
         catchError(error => {
           console.error('Error deleting short URL:', error);
           return throwError(error);
         })
       );
-  } 
+  }
+
   checkUrlExists(originalUrl: string): Observable<any> {
     const body = JSON.stringify( originalUrl );
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
