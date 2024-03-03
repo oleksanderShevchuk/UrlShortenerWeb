@@ -1,21 +1,18 @@
 ﻿using UrlShortenerWeb.Data;
-using UrlShortenerWeb.Models.DTO;
 using AutoMapper;
-using UrlShortenerWeb.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
 using UrlShortenerWeb.Models;
+using UrlShortenerWeb.DTO;
 
 namespace UrlShortenerWeb.Services
 {
     public class DescriptionService : IDescriptionService
     {
         private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
 
-        public DescriptionService(AppDbContext context, IMapper mapper)
+        public DescriptionService(AppDbContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
         [Authorize(Roles = Roles.Admin)]
         public async Task EditDescriptionAsync(DescriptionEditDto descriptionDto)

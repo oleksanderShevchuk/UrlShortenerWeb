@@ -3,41 +3,61 @@ using Microsoft.AspNetCore.Identity;
 using UrlShortenerWeb.Models;
 using UrlShortenerWeb.Services;
 using Microsoft.AspNetCore.Authorization;
-using UrlShortenerWeb.Areas.Identity.Data;
-using UrlShortenerWeb.Services.Attributes;
+using UrlShortenerWeb.Data;
 
 namespace UrlShortenerWeb.Controllers
 {
-    public class ShortUrlController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ShortUrlController : ControllerBase
     {
-        private readonly UrlShorteningService _urlService;
+        private readonly IUrlShorteningService _urlService;
         private readonly UserManager<ApplicationUser> _userManager;
-        public ShortUrlController(UrlShorteningService urlService, UserManager<ApplicationUser> userManager)
+
+        public ShortUrlController(IUrlShorteningService urlService, UserManager<ApplicationUser> userManager)
         {
             _urlService = urlService;
             _userManager = userManager;
         }
-        public IActionResult Index()
+
+        [HttpGet("get")]
+        public IActionResult Get()
         {
-            return View(_urlService.GetAll());
+            List<ShortUrl> links = _urlService.GetAll().ToList();
+            return Ok(links);
         }
+
+        [HttpGet("get-by-id/{id}")]
+        public IActionResult GetById(int id)
+        {
+            ShortUrl shortUrl = _urlService.GetById(id);
+            if (shortUrl == null)
+            {
+                return NotFound();
+            }
+            return Ok(shortUrl);
+        }
+
         [Authorize]
+        [HttpGet("url-info/{id}")]
         public IActionResult UrlInfo(int id)
         {
-            return View(_urlService.GetById(id));
+            ShortUrl shortUrl = _urlService.GetById(id);
+            if (shortUrl == null)
+            {
+                return NotFound();
+            }
+            return Ok(shortUrl);
         }
+
         [Authorize]
-        public IActionResult Create()
+        [HttpPost("create")]
+        public async Task<IActionResult> Create([FromBody] string originalUrl)
         {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Create(string originalUrl)
-        {
-            if (_urlService.GetByOriginalUrl(originalUrl) is not null)
+            if (_urlService.GetByOriginalUrl(originalUrl) != null)
             {
                 ModelState.AddModelError(string.Empty, "URL already exists");
-                return View();
+                return BadRequest(ModelState);
             }
             var user = await _userManager.GetUserAsync(User);
             var code = _urlService.GenerateUniqueUrl();
@@ -50,20 +70,12 @@ namespace UrlShortenerWeb.Controllers
                 CreatedDate = DateTime.UtcNow,
             };
             _urlService.Save(shortUrl);
-            return RedirectToAction(actionName: nameof(Index), routeValues: new { id = shortUrl.Id });
+            return Ok(new { success = true }); // Return success response
         }
+
         [Authorize]
-        public IActionResult Delete(int id)
-        {
-            var item = _urlService.GetById(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return View(item);
-        }
-        [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeletePost(int id)
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
             var item = _urlService.GetById(id);
             if (item == null)
@@ -76,10 +88,16 @@ namespace UrlShortenerWeb.Controllers
             if (item.CreatedBy != user.Id.ToString() && role != Roles.Admin)
             {
                 ModelState.AddModelError(nameof(ShortUrl), "You can not delete someone's URL.");
-                return RedirectToAction("Index");
+                return BadRequest(ModelState);
             }
             _urlService.DeleteById(id);
-            return RedirectToAction("Index");
+            return Ok(new { success = true }); // Return success response
+        }
+        [HttpPost("check-url-exists")]
+        public IActionResult CheckUrlExists([FromBody] string originalUrl)
+        {
+            var urlExists = _urlService.GetByOriginalUrl(originalUrl) != null;
+            return Ok(urlExists);
         }
     }
 }

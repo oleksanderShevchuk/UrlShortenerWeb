@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+    <div class="col-12 col-lg-5">
+        <main class="form-signin">
+            <form [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="off">
+                <div class="text-center mb-4">
+                    <h3 class="mb-3 font-weight-normal">
+                        Registration 
+                    </h3>
+                </div>
+                <div class="form-floating mb-3">
+                    <input formControlName="email" type="text" placeholder="Email" class="form-control"
+                        [class.is-invalid]="submitted && registerForm.get('email')?.errors">
+                    <label for="email">Email</label>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('email')?.hasError('required')">
+                        Email is required
+                    </span>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('email')?.hasError('pattern')">
+                        Invalid email address
+                    </span>
+                </div>
+  
+                <div class="form-floating mb-3">
+                    <input formControlName="password" type="password" placeholder="Password" class="form-control"
+                        [class.is-invalid]="submitted && registerForm.get('password')?.errors">
+                    <label for="password">Password</label>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('password')?.hasError('required')">
+                        Password is required
+                    </span>
+                    <span class="text-danger"
+                        *ngIf="submitted && 
+                    registerForm.get('password')?.hasError('minlength') || registerForm.get('password')?.hasError('maxlength')">
+                        Password must be at least 6, and maximum 15 characters <br>
+                    </span>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('password')?.hasError('pattern')">
+                        Password must have at least one non-alphanumeric character, one lowercase ('a'-'z'), and one uppercase ('A'-'Z').<br>
+                    </span>
+                </div>
+  
+                <div class="form-floating mb-3">
+                    <input formControlName="confirmPassword" type="password" placeholder="Confirm Password" class="form-control"
+                    [class.is-invalid]="submitted && registerForm.get('confirmPassword')?.errors">
+                    <label for="confirmPassword">Confirm Password</label>
+                  <span class="text-danger" *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('required')">
+                      Confirm Password is required
+                  </span>
+                  <span class="text-danger" *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('passwordMismatch')">
+                      Passwords do not match
+                  </span>
+              </div>
+  
+                <div class="form-floatin" *ngIf="errorMessages.length > 0">
+                    <app-validation-messages [errorMessages]="errorMessages"></app-validation-messages>
+                </div>
+  
+                <div class="d-grid mt-4 px-1">
+                    <button class="btn btn-lg btn-info" type="submit">Create Account</button>
+                </div>
+            </form>
+        </main>
+    </div>
+  </div>
+  

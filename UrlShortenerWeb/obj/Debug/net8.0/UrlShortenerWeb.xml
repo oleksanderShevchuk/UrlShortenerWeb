@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UrlShortenerWeb</name>
+    </assembly>
+    <members>
+        <member name="T:UrlShortenerWeb.Data.Roles">
+            <summary>
+            class for role name
+            </summary>
+        </member>
+        <member name="F:UrlShortenerWeb.Data.Roles.Admin">
+            <summary>
+            Accessible by users who have admin role
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:UrlShortenerWeb.Data.Roles.User" -->
+        <member name="T:UrlShortenerWeb.Helpers.ShortUrlHelper">
+             ShortURL: Bijective conversion between natural numbers (IDs) and short strings
+            
+             ShortURL.GenerateUniqueCode() return random number of NumberOfCharsInShortUrl chars
+             
+             Features:
+             + large alphabet (51 chars) and thus very short resulting strings
+        </member>
+        <member name="T:UrlShortenerWeb.Migrations.Initial">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:UrlShortenerWeb.Migrations.AddCreatedDateToShortUrl">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.AddCreatedDateToShortUrl.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.AddCreatedDateToShortUrl.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.AddCreatedDateToShortUrl.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:UrlShortenerWeb.Migrations.AddCodeToShortUrl">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.AddCodeToShortUrl.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.AddCodeToShortUrl.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.AddCodeToShortUrl.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:UrlShortenerWeb.Migrations.AddDescriptionTable">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.AddDescriptionTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.AddDescriptionTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UrlShortenerWeb.Migrations.AddDescriptionTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

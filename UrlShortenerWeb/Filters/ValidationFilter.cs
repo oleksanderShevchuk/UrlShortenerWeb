@@ -9,7 +9,16 @@ namespace UrlShortenerWeb.Filters
         {
             if (!context.ModelState.IsValid)
             {
-                context.Result = new BadRequestResult();
+                // Extract validation errors from ModelState
+                var errors = context.ModelState
+                    .Where(e => e.Value.Errors.Any())
+                    .Select(e => new {
+                        Property = e.Key,
+                        Errors = e.Value.Errors.Select(error => error.ErrorMessage)
+                    });
+
+                // Return the validation errors as part of the response
+                context.Result = new BadRequestObjectResult(errors);
                 return;
             }
             await next();

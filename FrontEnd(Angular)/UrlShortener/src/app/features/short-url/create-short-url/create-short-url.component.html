@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row">
+      <h4 class="text-center text-primary m-3">Short URL</h4>
+    </div>
+  
+    <form [formGroup]="urlForm" (ngSubmit)="onSubmit()">
+        <div class="row shadow mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="input-group mb-1 mt-1">
+                        <input type="text" class="form-control" formControlName="originalUrl" placeholder="Enter original URL">
+                        <button class="btn btn-outline-primary" type="submit">Create Short URL</button>
+                    </div>
+                    <div class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+                        <div *ngIf="urlForm.controls['originalUrl'].invalid && urlForm.controls['originalUrl'].touched">
+                            <div class="text-danger" *ngIf="urlForm.controls['originalUrl'].errors?.['required']">URL is required.</div>
+                            <div class="text-danger" *ngIf="urlForm.controls['originalUrl'].errors?.['pattern']">Invalid URL format.</div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+  
+      
+    <!-- <form #form="ngForm" (ngSubmit)="onSubmit()">
+        <div class="row shadow mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="input-group mb-1 mt-1">
+                        <input type="text" class="form-control" placeholder="Enter URL"  
+                            aria-label="Recipient's username" aria-describedby="button-addon2" 
+                            [(ngModel)]="originalUrl" [ngModelOptions]="{ standalone: true }">
+                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">Generate</button>
+                    </div>
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+                        {{ errorMessage }}
+                      </div>
+                </div>
+            </div>
+        </div>
+    </form> -->

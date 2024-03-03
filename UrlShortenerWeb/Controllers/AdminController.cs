@@ -1,51 +1,53 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using UrlShortenerWeb.Areas.Identity.Data;
 using UrlShortenerWeb.Data;
-using UrlShortenerWeb.Models;
-using UrlShortenerWeb.Models.DTO;
+using UrlShortenerWeb.DTO;
 using UrlShortenerWeb.Services;
 
 namespace UrlShortenerWeb.Controllers
 {
+    //[Authorize(Roles = Roles.Admin)]
+    [Route("api/[controller]")]
+    [ApiController]
     public class AdminController : Controller
     {
-        private readonly UrlShorteningService _urlService;
-        private readonly DescriptionService _descriptionService;
+        private readonly IUrlShorteningService _urlService;
+        private readonly IDescriptionService _descriptionService;
 
-        public AdminController(UrlShorteningService urlService, DescriptionService descriptionService)
+        public AdminController(IUrlShorteningService urlService, IDescriptionService descriptionService)
         {
             _urlService = urlService;
             _descriptionService = descriptionService;
         }
-        [Authorize(Roles = Roles.Admin)]
-        public IActionResult EditDescription(int id)
+        [AllowAnonymous]
+        [HttpGet("description/{id}")]
+        public IActionResult GetDescription(int id)
         {
             var description = _descriptionService.FindDescriptionById(id);
             if (description == null)
             {
                 return NotFound();
             }
-            return View(description);
+            return Ok(description);
         }
-        [HttpPost]
+        [HttpPut("description/edit")]
         public async Task<IActionResult> EditDescription(DescriptionEditDto descriptionDto)
         {
             await _descriptionService.EditDescriptionAsync(descriptionDto);
-            return RedirectToAction("About", "Home");
+            return Ok(); 
         }
+        [HttpPost("urls/delete-all")]
         public IActionResult DeleteAllUrls()
         {
-            return View();
-        }
-        [HttpPost, ActionName("DeleteAllUrls")]
-        [Authorize(Roles.Admin)]
-        public IActionResult DeleteAllUrlsPost()
-        {
+            // Check if the user has the required role
+            var role = User.IsInRole(Roles.Admin);
+            if (!User.IsInRole(Roles.Admin))
+            {
+                return StatusCode(403); // Forbidden status code
+            }
             _urlService.DeleteAllUrl();
-            return RedirectToAction("Index", "ShortUrl");
+            return Ok();
         }
     }
 }
