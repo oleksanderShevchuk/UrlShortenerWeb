@@ -4,6 +4,7 @@ import { ShortUrl } from '../../../models/short-url/short-url.model';
 import { AccountService } from '../../../account/account.service';
 import { AdminService } from '../../../services/admin/admin.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-short-url-list',
@@ -13,14 +14,13 @@ import { Router } from '@angular/router';
 export class ShortUrlListComponent implements OnInit{
   shortUrls: ShortUrl[] = [];
   newUrl: string = '';
-  urlExistsError: boolean = false;
-  allUrlsDeletedMessageVisible: boolean = false;
 
   constructor(
     private urlShortenerService: UrlShortenerService,
     private accountService: AccountService,
     private adminService: AdminService,
     private router: Router,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -33,19 +33,15 @@ export class ShortUrlListComponent implements OnInit{
     });
   }
 
-  deleteShortUrl(id: number): void {
-    this.urlShortenerService.delete(id).subscribe(() => {
-      this.shortUrls = this.shortUrls.filter(url => url.id !== id);
-    }, error => {
-      console.error('Error deleting short URL:', error);
-    });
-  }
   deleteUrl(id: number): void {
     const confirmed = window.confirm('Are you sure you want to delete this URL?');
     if (confirmed) {
-    this.urlShortenerService.delete(id).subscribe(() => {
-      // Refresh the list of URLs after deletion
-      this.fetchShortUrls();
+    this.urlShortenerService.delete(id).subscribe((response) => {
+        // Handle successful response
+        this.toastr.success('Short URL deleted successfully!', 'Success');
+        console.log("Short URL deleted successfully:", response);
+        // Refresh the list of URLs after deletion
+        this.fetchShortUrls();
     });
     }
   }
@@ -71,16 +67,15 @@ export class ShortUrlListComponent implements OnInit{
   onDeleteAllUrls(): void {
     if (confirm('Are you sure you want to delete all URLs?')) {
       this.adminService.deleteAllUrls().subscribe(
-        () => {
+        (response) => {
           console.log('All URLs deleted successfully.');
-          this.allUrlsDeletedMessageVisible = true; // Show the success message
-          // Optionally, refresh the table or perform any other action
-          setTimeout(() => {
-            this.allUrlsDeletedMessageVisible = false; // Hide the success message after some time
-          }, 3000); // Adjust the time (in milliseconds) as needed
+          this.toastr.success('All URLs deleted successfully!', 'Success');
+          // Refresh the list of URLs after deletion
+          this.fetchShortUrls();
         },
         (error) => {
-          console.error('Error deleting all URLs:', error);
+          this.toastr.error('Error deleting all URLs. Please try again later.', 'Error');
+          console.error('Error deleting all URLs.', error);
         }
       );
     }

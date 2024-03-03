@@ -4,3 +4,49 @@ body {
   height: 100%;
   margin: 0;
 }
+
+/* Custom styles for Toastr notifications */
+
+/* Success notification */
+.toast-success {
+  background-color: #4caf50; /* Green */
+  color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Error notification */
+.toast-error {
+  background-color: #f44336; /* Red */
+  color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Info notification */
+.toast-info {
+  background-color: #2196f3; /* Blue */
+  color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Warning notification */
+.toast-warning {
+  background-color: #ff9800; /* Orange */
+  color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Container for Toastr notifications */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DescriptionService } from '../../services/description/description.service';
-import { SharedService } from '../../shared/shared.service';
 import { Description } from '../../models/description/description.model';
 import { AccountService } from '../../account/account.service';
 import { DescriptionEditDto } from '../../models/description/description-edit-dto.model';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-description',
@@ -21,9 +20,9 @@ export class DescriptionComponent implements OnInit {
 
   constructor(
     private descriptionService: DescriptionService,
-    private sharedService: SharedService,
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -54,14 +53,14 @@ export class DescriptionComponent implements OnInit {
     this.descriptionService.editDescription(this.descriptionEditDto).subscribe(
       () => {
         console.log('Description updated successfully');
-        this.sharedService.showNotification(true, "Success", "Successfully update description");
+        this.toastr.success('Description updated successfully!', 'Success');
         this.editingEnabled = false; // Disable editing mode
         this.description.content = this.editedContent;
         this.router.navigate([this.router.url]);
       },
       (error) => {
         console.error('Error updating description:', error);
-        this.sharedService.showNotification(false, "Error", "Failed to update description");
+        this.toastr.error('Failed to update description. Please try again later.', 'Error');
       }
     );
   }

@@ -20,7 +20,6 @@ export class ShortUrlInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    debugger
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id !== null) {

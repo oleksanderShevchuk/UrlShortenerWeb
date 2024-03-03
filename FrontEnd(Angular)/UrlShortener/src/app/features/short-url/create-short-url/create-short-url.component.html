@@ -11,10 +11,10 @@
                         <input type="text" class="form-control" formControlName="originalUrl" placeholder="Enter original URL">
                         <button class="btn btn-outline-primary" type="submit">Create Short URL</button>
                     </div>
-                    <div *ngIf="errorMessage">{{ errorMessage }}</div>
+                    <div class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
                         <div *ngIf="urlForm.controls['originalUrl'].invalid && urlForm.controls['originalUrl'].touched">
-                            <div *ngIf="urlForm.controls['originalUrl'].errors?.['required']">URL is required.</div>
-                            <div *ngIf="urlForm.controls['originalUrl'].errors?.['pattern']">Invalid URL format.</div>
+                            <div class="text-danger" *ngIf="urlForm.controls['originalUrl'].errors?.['required']">URL is required.</div>
+                            <div class="text-danger" *ngIf="urlForm.controls['originalUrl'].errors?.['pattern']">Invalid URL format.</div>
                         </div>
                 </div>
             </div>
